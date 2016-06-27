@@ -1,0 +1,37 @@
+{
+  "name": "sia-node",
+  "description": "Sia Node - siad RPC relay for Sia Cluster",
+  "author": {
+    "name": "ASPECTRON Inc.",
+    "email": "info@aspectron.com"
+  },
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node sia-node.js"
+  },
+  "main": "sia-node.js",
+  "dependencies": {
+    "iris-app": "^0.1.44",
+    "iris-stats": "*",
+    "iris-underscore": "*",
+    "node-statsd": "*",
+    "sia-api": "^0.1.10",
+    "uuid-1345": "*",
+    "big-integer": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aspectron/sia-node"
+  },
+  "bugs": {
+    "url": "https://github.com/aspectron/sia-node/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/aspectron/sia-node"
+
+}

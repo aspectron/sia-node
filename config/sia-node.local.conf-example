@@ -1,0 +1,20 @@
+{
+
+    // identifier : "<instance-name>",  // if not included, defaults to your host name
+                                        // node will be identified by this name in sia cluster
+
+    rpc : {
+
+        // address : "<ip-of-sia-cluster-rpc-server>:58481",
+        // or
+        // port : <local-rpc-server-port-number>
+
+        address : "127.0.0.1:58481",
+        auth : "1299ece0263565a53df103a34910884d5016a10d86c06e5f309f17761a965d28"
+    },
+
+    siad : {
+        host : 'http://localhost:9980',
+        storage : "/dev/sda1"
+    }
+}

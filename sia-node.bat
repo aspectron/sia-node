@@ -1,0 +1,1 @@
+@node run sia-node

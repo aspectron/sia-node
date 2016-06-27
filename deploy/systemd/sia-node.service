@@ -1,0 +1,13 @@
+# /usr/lib/systemd/sia-node.service
+
+[Unit]
+Description=Sia Node
+
+[Service]
+Type=simple
+PIDFile=/var/run/sia-node.pid
+WorkingDirectory=/home/userfolder/sia-node
+ExecStart=/home/userfolder/node/bin/node run sia-node
+
+[Install]
+WantedBy=multi-user.target
