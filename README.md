@@ -5,8 +5,6 @@
 
 Sia Host (siad) monitoring utility for use with [Sia Cluster](http://github.com/aspectron/sia-cluster)
 
-More information on the project can be found here: http://aspectron.com/#SiaCluster
-
 *siad* must be running on the local computer where Sia Node interface is deployed.
 
 ## Configuration
@@ -34,21 +32,34 @@ You need to configure following settings in your `config/sia-node.local.conf`:
 * [Running as Systemd Service (Ubuntu > 15.x)](https://github.com/aspectron/iris-app#deploying-systemd-service)
 * [Running as Upstart Service (Ubuntu < 15.x)](https://github.com/aspectron/iris-app#deploying-as-ubuntu-upstart-service)
 
+Full installation script:
+```bash
+cd ~
+wget https://nodejs.org/dist/v6.2.2/node-v6.2.2-linux-x64.tar.xz
+tar xf node-v6.2.2-linux-x64.tar.xz
+ln -s node-v6.2.2-linux-x64 node
+echo -e "\n\nPATH=\"\$HOME/node/bin:\$PATH\"\n\n"
+source ~/.profile
+git clone https://github.com/aspectron/sia-node
+cd sia-node
+npm install
+node sia-node
+```
 
 ## Deploying on Windows
 
-* Download and install latest [NodeJs](http://nodejs.org)
-* Download and install [Git for Windows](https://git-for-windows.github.io/)
-* Install Sia Node:
+For windows, download and install:
+* NodeJs - https://nodejs.org/en/download/current/
+* Git for Windows - https://git-for-windows.github.io/
+
+Run the following from command line:
 ```bash
 git clone https://github.com/aspectron/sia-node
 cd sia-node
 npm install
-```
-* Run Sia Node (Sia UI or `siad` must be running on a local system!)
-```
 node sia-node
 ```
+
 * Add a shortcut to `sia-node.bat` to Startup folder to launch at startup
   * Press Win+R keys together
   * type: shell:Startup
