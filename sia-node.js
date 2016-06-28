@@ -255,13 +255,9 @@ function SiaNode() {
         })
 
         // block function to prevent remote invocation without passphrase
-        self.sia.wallet.siacoins.post = function(args, callback) {
-            return callback({ error : "Blocked" })
-        }
-
-        self.sia.wallet.siafunds.post = function(args, callback) {
-            return callback({ error : "Blocked" })
-        }
+        function block_(args, callback) { return callback({ error : "Blocked" }); }
+        self.sia.wallet.siacoins.post = block_;
+        self.sia.wallet.siafunds.post = block_;
 
         callback();        
     })
