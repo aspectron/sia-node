@@ -18,7 +18,8 @@
     "node-statsd": "*",
     "sia-api": "*",
     "uuid-1345": "*",
-    "big-integer": "*"
+    "big-integer": "*",
+    "blowfish" : "*"
   },
   "engines": {
     "node": "*",

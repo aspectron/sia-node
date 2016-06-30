@@ -2,6 +2,7 @@ var os = require('os');
 var fs = require('fs');
 var util = require('util');
 var crypto = require('crypto');
+var Blowfish = require('blowfish');
 var UUID = require('uuid-1345');
 var irisApp = require('iris-app');
 var _ = require('iris-underscore');
@@ -38,10 +39,17 @@ function SiaNode() {
         cipher = crypto.createCipher(cryptConfig.chipher, key);
         var crypted = cipher.update(data, 'utf-8', 'hex')
         crypted += cipher.final('hex');
+
+        var bf = new Blowfish(key);
+        crypted = bf.encrypt(crypted).toLowerCase();
+
         return crypted;
     }
      
     function decrypt(hex, key) {
+        var bf = new Blowfish(key);
+        hex = bf.decrypt(hex);
+
         var decipher = crypto.createDecipher(cryptConfig.chipher, key);
         var decrypted = decipher.update(hex, 'hex', 'utf-8')
         decrypted += decipher.final('utf-8');
