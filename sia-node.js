@@ -158,7 +158,7 @@ function SiaNode() {
             })
         })
 
-        self.rpc.on('get-host-log', function(msg, callback) {
+        self.rpc.on('fetch-host-logfile', function(msg, callback) {
             var logfile = self.config.siad.logfile;
             if(logfile!)
                 return callback({ error : "Log file is not configured"});
