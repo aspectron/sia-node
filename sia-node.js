@@ -158,6 +158,22 @@ function SiaNode() {
             })
         })
 
+        self.rpc.on('get-host-log', function(msg, callback) {
+            var logfile = self.config.siad.logfile;
+            if(logfile!)
+                return callback({ error : "Log file is not configured"});
+
+            if(!fs.existsSync(logfile))
+                return callback({ error : "Unable to locate log file "+logfile});
+
+            fs.readFile(logfile, { encoding: 'utf-8' }, function(err, text) {
+                if(err)
+                    return callback(err);
+
+                return callback(null, text);
+            })
+        })
+
         // receive user passphrase and wallet key
         // generate scrypt hash out of the key
         // encrypt passphrase using this hash
