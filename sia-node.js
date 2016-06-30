@@ -200,7 +200,7 @@ function SiaNode() {
                         //self.sia.requestOptions.push({ timeout : 1000 * 60 * 5 })
                         self.sia.wallet.unlock({ encryptionpassword : key }, { timeout : 1000 * 60 * 5 }, callback);
                     } catch(ex) {
-                        callback({error: ex.message});
+                        callback({ error: ex.toString() });
                     }
                 } break;
 
