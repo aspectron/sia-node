@@ -160,7 +160,7 @@ function SiaNode() {
 
         self.rpc.on('fetch-host-logfile', function(msg, callback) {
             var logfile = self.config.siad.logfile;
-            if(logfile!)
+            if(!logfile)
                 return callback({ error : "Log file is not configured"});
 
             if(!fs.existsSync(logfile))
@@ -379,11 +379,12 @@ function SiaNode() {
 
     self.updateSiad = function(callback) {
 
-        var list = ["/daemon/version","/host","/host/storage","/wallet","/consensus"];
+        var list = ["/daemon/version","/host", /*"/host/storage",*/ "/wallet","/consensus"];
 
         _.asyncMap(list, function(path, callback) {
             
             var ident = path.split('/').pop();
+            !self.sia.ifacePathMap[path] && console.log("self.sia.ifacePathMap", self.sia.ifacePathMap, path)
 
             self.sia.ifacePathMap[path].get(function(err, data) {
                 if(err)
