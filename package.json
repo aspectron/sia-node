@@ -1,11 +1,11 @@
 {
   "name": "sia-node",
+  "version": "0.9.0",
   "description": "Sia Node - siad RPC relay for Sia Cluster",
   "author": {
     "name": "ASPECTRON Inc.",
     "email": "info@aspectron.com"
   },
-  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node sia-node.js"
