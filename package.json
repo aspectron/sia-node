@@ -16,7 +16,7 @@
     "iris-stats": "*",
     "iris-underscore": "*",
     "node-statsd": "*",
-    "sia-api": "^0.1.10",
+    "sia-api": "*",
     "uuid-1345": "*",
     "big-integer": "*"
   },

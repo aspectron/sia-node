@@ -319,22 +319,60 @@ function SiaNode() {
         })
     }
 
+    var transform = {
+
+        version : function(data) {
+            data.platform = self.platform;
+
+            return data;
+        },
+
+        wallet : function(data) {
+            if(!data.unlocked && 
+               !parseFloat(data.confirmedsiacoinbalance) && 
+               !parseFloat(data.unconfirmedoutgoingsiacoins) &&
+               !parseFloat(data.unconfirmedincomingsiacoins) && 
+               !parseFloat(data.siafundbalance) &&
+               !parseFloat(data.siacoinclaimbalance)) {
+                    data.confirmedsiacoinbalance = 
+                    data.unconfirmedoutgoingsiacoins = 
+                    data.unconfirmedincomingsiacoins = 
+                    data.siafundbalance = 
+                    data.siacoinclaimbalance = "N/A";
+            }
+
+            return data;
+        },
+
+        storage : function(_data) {
+            var data = { }
+            _.each(_data.folders, function(o) {
+                data[o.path] = o;
+            })
+            return data;
+        }
+    }
+
     self.updateSiad = function(callback) {
 
-        var list = ["/daemon/version","/host","/wallet","/consensus"];
+        var list = ["/daemon/version","/host","/host/storage","/wallet","/consensus"];
 
         _.asyncMap(list, function(path, callback) {
+            
             var ident = path.split('/').pop();
+
             self.sia.ifacePathMap[path].get(function(err, data) {
                 if(err)
                     self.state.errors[ident] = err+'';
                 else {
 
-                    if(ident == 'version')
-                        data.platform = self.platform;
+                    if(transform[ident])
+                        data = transform[ident](data);
 
-                    self.state[ident] = data;
-                
+                    if(ident == 'storage')
+                        self.state.host.storage = data;
+                    else
+                        self.state[ident] = data;                
 
                     if(ident == "consensus" && data) {
                         if(!data.synced) {
@@ -353,7 +391,7 @@ function SiaNode() {
                 callback();
             })
         }, function() {
-            //console.log(self.state);
+            // console.log(self.state);
             callback();
         })
     }
