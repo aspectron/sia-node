@@ -188,12 +188,42 @@ function SiaNode() {
             if(!fs.existsSync(logfile))
                 return callback({ error : "Unable to locate log file "+logfile});
 
-            fs.readFile(logfile, { encoding: 'utf-8' }, function(err, text) {
-                if(err)
-                    return callback(err);
+            var stats = fs.statSync(logfile);
+            var size = stats.size;
+            var limit = self.config.siad.logSizeLimit || 1024 * 1024 * 3;
+            if(size < limit) {
+                fs.readFile(logfile, { encoding: 'utf-8' }, function(err, text) {
+                    if(err)
+                        return callback(err);
 
-                return callback(null, text);
-            })
+                    return callback(null, text);
+                })
+            }
+            else {
+                fs.open(logfile, 'r', function(err, fd) {
+                    if(err)
+                        return callback(err);
+
+                    var buffer = new Buffer(limit);
+                    fs.read(fd, buffer, 0, limit, size-limit, function(err, bytes, buffer) {
+                        if(err) {
+                            fs.closeSync(fd);
+                            return callback(err);
+                        }
+
+                        //var 
+                        var text = buffer.toString('utf-8');
+                        var start = text.indexOf('\n');
+                        if(start >= 0)
+                            text = text.substring(start);
+                        text = "\n\n"+(irisApp.utils.tsString())+" (sia-node) Log size is larger than 3 MiB, truncating...\n\n"+text;
+
+                        callback(null, text);
+                    })
+
+                })
+            }
+
         })
 
         // receive user passphrase and wallet key
