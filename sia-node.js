@@ -190,7 +190,7 @@ function SiaNode() {
 
             var stats = fs.statSync(logfile);
             var size = stats.size;
-            var limit = self.config.siad.logSizeLimit || 1024 * 1024 * 3;
+            var limit = Math.round(self.config.siad.logSizeLimit || 1024 * 1024 * 2);
             if(size < limit) {
                 fs.readFile(logfile, { encoding: 'utf-8' }, function(err, text) {
                     if(err)
@@ -216,7 +216,7 @@ function SiaNode() {
                         var start = text.indexOf('\n');
                         if(start >= 0)
                             text = text.substring(start);
-                        text = "\n\n"+(irisApp.utils.tsString())+" (sia-node) Log size is larger than 3 MiB, truncating...\n\n"+text;
+                        text = "\n\n"+(irisApp.utils.tsString())+" (sia-node) Log size is larger than 2 MiB, truncating...\n\n"+text;
 
                         callback(null, text);
                     })
