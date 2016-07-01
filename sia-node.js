@@ -1,6 +1,7 @@
 var os = require('os');
 var fs = require('fs');
 var util = require('util');
+var path = require('path');
 var crypto = require('crypto');
 var Blowfish = require('blowfish');
 var UUID = require('uuid-1345');
@@ -25,6 +26,23 @@ function SiaNode() {
     if((!self.config.rpc.address && !self.config.rpc.port) || !self.config.rpc.auth) {
         console.log("Please configure (rpc.address or rpc.port) and rpc.auth settings in".red.bold,"config/sia-node.local.conf".bold);
         return;
+    }
+
+    if(!self.config.siad.path)
+        self.config.siad.path = '???';
+    if((self.config.siad.path).toLowerCase() == 'ignore')
+        self.ignoreSiaPath = true;
+
+    var testPath = path.join(self.config.siad.path,'host/host.log');
+    if(!self.ignoreSiaPath && !fs.existsSync(testPath)) {
+        console.log("");
+        console.log("Error: Unable to locate".red.bold,testPath.toString().bold);
+        console.log("Please make sure your","sia-node.local.conf".bold,"contains correct","siad.path".bold,"reference.");
+        console.log("It must point to the folder containing "+("consensus").bold+", "+("gateway").bold+", "+("host").bold+", "+("wallet").bold+" folders.");
+        if(self.platform == "win32")
+            console.log("In Windows you can use c:/folder/folder/sia/ (forward slashes) to specify the path.")
+        console.log("");
+        process.exit(0);
     }
 
     var cryptConfig = self.getConfig('encryption');
@@ -158,10 +176,14 @@ function SiaNode() {
             })
         })
 
-        self.rpc.on('fetch-host-logfile', function(msg, callback) {
-            var logfile = self.config.siad.logfile;
-            if(!logfile)
+        self.rpc.on('fetch-logfile', function(msg, callback) {
+            
+            if(self.config.siad.path == '???')
                 return callback({ error : "Log file is not configured"});
+
+            var type = msg.type;
+
+            var logfile = path.join(self.config.siad.path,type,type+'.log');
 
             if(!fs.existsSync(logfile))
                 return callback({ error : "Unable to locate log file "+logfile});
