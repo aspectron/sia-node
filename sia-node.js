@@ -426,6 +426,13 @@ function SiaNode() {
                 data[o.path] = o;
             })
             return data;
+        },
+
+        host : function(data) {
+            data.externalsettings.usedstorage = 
+                data.externalsettings.totalstorage - data.externalsettings.remainingstorage;
+
+            return data;
         }
     }
 
