@@ -1,4 +1,4 @@
-# Sia Node 0.9.0
+# Sia Node 0.9.2
 
 http://aspectron.com/#SiaCluster
 
