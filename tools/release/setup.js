@@ -7,6 +7,10 @@ var irisUtils = require('iris-utils');
 
 var root = path.join(__dirname,'../../../');
 
+var platform = process.platform;
+if(platform == 'win32')
+	platform = 'windows';
+
 function testFile(file) {
 	try {
 		fs.accessSync(file);
@@ -20,7 +24,7 @@ function testFile(file) {
 var force = process.argv.join(' ').match(/--force/ig) ? true : false;
 
 if(!force && testFile(path.join(root,'config/sia-node.local.conf'))) {
-	console.log("\nHas init.bat been ran already?".red.bold)
+	console.log("\nDid setup run already?".red.bold)
 	console.log("config/sia-node.local.conf".bold+" already exists!".bold)
 	console.log("\nUse "+"--force".bold+" to re-initialize (you will loose your settings!)\n\n")
 	process.exit(0);
@@ -41,18 +45,16 @@ var ip = rs.question("IP of Sia Cluster:".bold);
 // path to logs
 // try Sia-UI
 var siaPath = path.join(process.env.APPDATA,"Sia-UI/sia");
-console.log("siaPath",siaPath);
 var testPath = path.join(siaPath,'host/host.log');
-console.log("testPath",testPath);
 
 if(!testFile(path.join(siaPath,'host/host.log'))) {
 	// no Sia-UI..
 	// ask User..
 	while(true) {
-		console.log("Sia folder not found!".yellow.bold);
-		console.log("It contain folders like 'host','consensus' etc.");
+		console.log("Sia data folder not found!".yellow.bold);
+		console.log("It contain sub-folders like 'host','consensus' etc.");
 		console.log("Typically "+"siad".bold+" itself");
-		siaPath = rs.question("Please specify folder:");
+		siaPath = rs.question("Please specify sia data folder:");
 		var hostLog = path.join(siaPath,'host/host.log');
 		if(testFile(hostLog))
 			break;
@@ -87,22 +89,44 @@ fs.writeFileSync(path.join(root,'config/sia-node.local.conf'), local_conf);
 
 // ---
 
-var application = "@echo off\n"
-				+"cd ..\n"
-				+"bin\\node\\node sia-node\n"
-				+"cd bin\n";				
+if(platform == "windows") {
 
-var service = "@echo off\n"
-				+"cd ..\n"
-				+"bin\\node\\node run sia-node\n"
-				+"cd bin\n";				
+	var application = "@echo off\n"
+					+"cd ..\n"
+					+"bin\\node\\node sia-node\n"
+					+"cd bin\n";				
 
-fs.writeFileSync(path.join(root,'bin/sia-node.bat'), application);
-fs.writeFileSync(path.join(root,'bin/sia-node-service.bat'), service);
+	var service = "@echo off\n"
+					+"cd ..\n"
+					+"bin\\node\\node run sia-node\n"
+					+"cd bin\n";				
+
+	fs.writeFileSync(path.join(root,'bin/sia-node.bat'), application);
+	fs.writeFileSync(path.join(root,'bin/sia-node-service.bat'), service);
+
+}
+else {
+	var application = "# !/bin/bash\n"
+					+"cd ..\n"
+					+"bin/node/node sia-node\n"
+					+"cd bin\n";				
+
+	var service = "# !/bin/bash\n"
+					+"cd ..\n"
+					+"bin/node/node run sia-node\n"
+					+"cd bin\n";				
+
+	var p = path.join(root,'bin/sia-node').toString();
+	fs.writeFileSync(p+'.sh', application);
+	execSync("chmod a+x "+p+'.sh')
+	fs.writeFileSync(p+'-service.sh', service);
+	execSync("chmod a+x "+p+'-service.sh')	
+}
 
 // ---
 
+var suffix = platform == "windows" ? "bat" : "sh";
 console.log("To run, start one of the following:\n");
-console.log("bin/sia-node.bat".bold+" - application");
-console.log("bin/sia-node-service.bat".bold+" - service");
-console.log("\nConfigured to connect on "+"localhost\n".bold);
+console.log(("bin/sia-node."+suffix).bold+" - application");
+console.log(("bin/sia-node-service."+suffix).bold+" - service");
+console.log("\nYou can access Web UI at "+"http://localhost:5566\n".yellow.bold);
