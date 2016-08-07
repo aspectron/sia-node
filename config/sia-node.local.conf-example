@@ -15,6 +15,7 @@
 
     siad : {
         host : 'http://localhost:9980',
-//        path : "/home/userfolder/sia/"    // path to sia folder (where siad and siac resides)
+        path : null,    // path to sia folder (where siad and siac resides)
+                        // for example "/home/userfolder/sia/"
     }
 }
