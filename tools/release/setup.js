@@ -4,8 +4,9 @@ var path = require('path');
 var crypto = require('crypto');
 var rs = require('readline-sync');
 var irisUtils = require('iris-utils');
+var execSync = require('child_process').execSync;
 
-var root = path.join(__dirname,'../../../');
+var root = path.join(__dirname,'../../');
 
 var platform = process.platform;
 if(platform == 'win32')
@@ -44,7 +45,7 @@ var ip = rs.question("IP of Sia Cluster:".bold);
 
 // path to logs
 // try Sia-UI
-var siaPath = path.join(process.env.APPDATA,"Sia-UI/sia");
+var siaPath = path.join(process.env.APPDATA || '',"Sia-UI/sia");
 var testPath = path.join(siaPath,'host/host.log');
 
 if(!testFile(path.join(siaPath,'host/host.log'))) {
@@ -93,12 +94,12 @@ if(platform == "windows") {
 
 	var application = "@echo off\n"
 					+"cd ..\n"
-					+"bin\\node\\node sia-node\n"
+					+"bin\\node\\node sia-node %*\n"
 					+"cd bin\n";				
 
 	var service = "@echo off\n"
 					+"cd ..\n"
-					+"bin\\node\\node run sia-node\n"
+					+"bin\\node\\node run sia-node %*\n"
 					+"cd bin\n";				
 
 	fs.writeFileSync(path.join(root,'bin/sia-node.bat'), application);
@@ -108,12 +109,12 @@ if(platform == "windows") {
 else {
 	var application = "# !/bin/bash\n"
 					+"cd ..\n"
-					+"bin/node/node sia-node\n"
+					+"bin/node/node sia-node \"$@\"\n"
 					+"cd bin\n";				
 
 	var service = "# !/bin/bash\n"
 					+"cd ..\n"
-					+"bin/node/node run sia-node\n"
+					+"bin/node/node run sia-node \"$@\"\n"
 					+"cd bin\n";				
 
 	var p = path.join(root,'bin/sia-node').toString();
