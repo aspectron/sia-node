@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var UUID = require('node-uuid');
+// var UUID = require('uuid-1345');
 var crypto = require('crypto');
 var rs = require('readline-sync');
 var irisUtils = require('iris-utils');
@@ -35,12 +35,53 @@ if(!auth) {
 	console.log("You must specify auth string. Aborting...");
 	process.exit(1);
 }
+console.log("Please provide IP of Sia Cluster (default: 127.0.0.1)")
+var ip = rs.question("IP of Sia Cluster:".bold);
+
+// path to logs
+// try Sia-UI
+var siaPath = path.join(process.env.APPDATA,"Sia-UI/sia");
+console.log("siaPath",siaPath);
+var testPath = path.join(siaPath,'host/host.log');
+console.log("testPath",testPath);
+
+if(!testFile(path.join(siaPath,'host/host.log'))) {
+	// no Sia-UI..
+	// ask User..
+	while(true) {
+		console.log("Sia folder not found!".yellow.bold);
+		console.log("It contain folders like 'host','consensus' etc.");
+		console.log("Typically "+"siad".bold+" itself");
+		siaPath = rs.question("Please specify folder:");
+		var hostLog = path.join(siaPath,'host/host.log');
+		if(testFile(hostLog))
+			break;
+		
+		console.log("Error: '".magenta.bold+hostLog.bold+"' not found".magenta.bold);
+		console.log("You can configure manually later in sia-node.local.conf");
+		if (rs.keyInYN('Do you want to retry?'))
+			continue;
+		else {
+			siaPath = null;
+			break;
+		}
+		
+	}
+}
 // --
 
 var local_conf = fs.readFileSync(path.join(root,'config/sia-node.local.conf-example'), { encoding : 'utf-8' });
 
 local_conf = local_conf
 				.replace('1299ece0263565a53df103a34910884d5016a10d86c06e5f309f17761a965d28',auth);
+
+if(ip)
+	local_conf = local_conf
+				.replace('address : "127.0.0.1:58481"','address : "'+ip+':58481"');
+
+if(siaPath)
+	local_conf = local_conf
+				.replace('path : null','path : "'+siaPath.toString().replace(/\\/g,'\\\\')+'"');
 
 fs.writeFileSync(path.join(root,'config/sia-node.local.conf'), local_conf);
 

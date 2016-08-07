@@ -15,11 +15,13 @@
     "iris-app": "^0.1.44",
     "iris-stats": "*",
     "iris-underscore": "*",
+    "iris-utils" : "*",
     "node-statsd": "*",
     "sia-api": "*",
     "uuid-1345": "*",
     "big-integer": "*",
-    "blowfish" : "*"
+    "blowfish" : "*",
+    "readline-sync" : "*"
   },
   "engines": {
     "node": "*",
