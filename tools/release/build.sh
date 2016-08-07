@@ -6,7 +6,6 @@ PLATFORM="$1"
 SIA_NODE_VERSION="v0-9-2-$PLATFORM"
 SIA_RELEASE_PATH="sia-node-$SIA_NODE_VERSION"
 MINGW_PATH="/c/Program Files/Git/mingw64"
-NODE_PATH="/c/Program Files/nodejs"
 
 if [[ ! "$1" =~ ^(win64|linux64|darwin)$ ]]; then
 	echo "First argument must be a platform: linux64 win64 darwin"
@@ -14,13 +13,13 @@ if [[ ! "$1" =~ ^(win64|linux64|darwin)$ ]]; then
 fi
 
 if [[ "$2" =~ ^(--local|--dev|--master)$ ]]; then
-	echo "Building #SIA_RELEASE_PATH..."
+	echo "Building $SIA_RELEASE_PATH..."
 else
 	echo "Please use one of the following: --local --dev --master"
 	exit
 fi
 
-cd ../../../..
+cd ../../..
 mkdir -p releases
 cd releases
 
