@@ -19,6 +19,8 @@ else
 	exit
 fi
 
+BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+cd $BUILD_DIR
 cd ../../..
 mkdir -p releases
 cd releases
