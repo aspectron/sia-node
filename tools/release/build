@@ -1,9 +1,11 @@
 # !/bin/bash
 
 pushd .
+BUILD_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+cd $BUILD_DIR/../..
 
 PLATFORM="$1"
-VERSION=`cat ../../VERSION`
+VERSION=`cat VERSION`
 SIA_NODE_VERSION="$VERSION-$PLATFORM"
 SIA_RELEASE_PATH="sia-node-$SIA_NODE_VERSION"
 MINGW_PATH="/c/Program Files/Git/mingw64"
@@ -20,7 +22,7 @@ else
 	exit
 fi
 
-cd ../../..
+cd ..
 mkdir -p releases
 cd releases
 
