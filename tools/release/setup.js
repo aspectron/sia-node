@@ -6,10 +6,13 @@ var rs = require('readline-sync');
 var irisUtils = require('iris-utils');
 
 var root = path.join(__dirname,'../../../');
+var temp = '/tmp';
 
 var platform = process.platform;
-if(platform == 'win32')
+if(platform == 'win32') {
 	platform = 'windows';
+	var temp = path.join(process.env.TEMP);
+}
 
 function testFile(file) {
 	try {
