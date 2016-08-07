@@ -112,13 +112,17 @@ if(platform == "windows") {
 
 }
 else {
+	var DIR = "DIR=\"$( cd \"$( dirname \"${BASH_SOURCE[0]}\" )\" && pwd )\";";
+
 	var application = "# !/bin/bash\n"
-					+"cd ..\n"
+					+DIR+'\n'
+					+"cd $DIR/..\n"
 					+"bin/node/node sia-node \"$@\"\n"
 					+"cd bin\n";				
 
 	var service = "# !/bin/bash\n"
-					+"cd ..\n"
+					+DIR+'\n'
+					+"cd $DIR/..\n"
 					+"bin/node/node run sia-node \"$@\"\n"
 					+"cd bin\n";				
 
