@@ -81,7 +81,7 @@ if(ip)
 
 if(siaPath)
 	local_conf = local_conf
-				.replace('path : null','path : "'+siaPath.toString().replace(/\\/g,'\\\\')+'"');
+				.replace("path : 'ignore'","path : '"+siaPath.toString().replace(/\\/g,'\\\\')+"'");
 
 fs.writeFileSync(path.join(root,'config/sia-node.local.conf'), local_conf);
 
