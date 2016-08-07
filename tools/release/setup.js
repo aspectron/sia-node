@@ -115,18 +115,18 @@ else {
 	var DIR = 'DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";';
 
 	var application = "# !/bin/bash\n"
-					+"pushd\n"
+					+"pushd . > /dev/nul\n"
 					+DIR+'\n'
 					+"cd $DIR/..\n"
 					+"bin/node/node sia-node \"$@\"\n"
-					+"popd\n";
+					+"popd > /dev/nul\n";
 
 	var service = "# !/bin/bash\n"
-					+"pushd\n"
+					+"pushd . > /dev/nul\n"
 					+DIR+'\n'
 					+"cd $DIR/..\n"
 					+"bin/node/node run sia-node \"$@\"\n"
-					+"popd\n";				
+					+"popd > /dev/nul\n";				
 
 	var p = path.join(root,'bin/sia-node').toString();
 	fs.writeFileSync(p, application);
