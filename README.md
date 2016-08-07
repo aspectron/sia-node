@@ -9,6 +9,28 @@ Sia Host (siad) monitoring utility for use with [Sia Cluster](http://github.com/
 
 *siad* must be running on the local computer where Sia Node interface is deployed.
 
+
+## Setup
+
+Download binaries from GitHub located here:
+https://github.com/aspectron/sia-cluster/releases
+
+#### Setup Sia Node 
+
+* Download & Extract sia-node-vX-X-X-win64.zip
+* Windows: run `sia-node-vX-X-X-win64/bin/setup.bat"
+* Linux & Darwin: run `sia-node-vX-X-X-win64/bin/setup.sh"
+
+You will need to specify:
+* **auth** - created by Sia Cluster setup
+* **address/ip** - of Sia Cluster server (default is 127.0.0.1; if not sure, hit ENTER)
+* **path** - to Sia data folder (containing `host`, `consensus` etc.);  If running Sia-UI, setup script will attempt to locate this folder automatically in your APPDATA.
+
+Once complete, you can start Sia Node:
+* Windows: `bin/sia-node.bat` or `bin/sia-node-service.bat`
+* Linux & Darwin: `bin/sia-node.sh` or `bin/sia-node-service.sh`
+
+
 ## Configuration
 
 You need to configure following settings in your `config/sia-node.local.conf`:
