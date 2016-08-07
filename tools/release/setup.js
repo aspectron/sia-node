@@ -54,10 +54,10 @@ var testPath = path.join(siaPath,'host/host.log');
 if(!testFile(path.join(siaPath,'host/host.log'))) {
 	// no Sia-UI..
 	// ask User..
+	console.log("Sia data folder not found!".yellow.bold);
+	console.log("It contain sub-folders like 'host','consensus' etc.");
+	console.log("Typically "+"siad".bold+" itself");
 	while(true) {
-		console.log("Sia data folder not found!".yellow.bold);
-		console.log("It contain sub-folders like 'host','consensus' etc.");
-		console.log("Typically "+"siad".bold+" itself");
 		siaPath = rs.question("Please specify sia data folder:");
 		var hostLog = path.join(siaPath,'host/host.log');
 		if(testFile(hostLog))
