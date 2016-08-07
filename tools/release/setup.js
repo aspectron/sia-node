@@ -121,10 +121,10 @@ else {
 					+"cd bin\n";				
 
 	var p = path.join(root,'bin/sia-node').toString();
-	fs.writeFileSync(p+'.sh', application);
-	execSync("chmod a+x "+p+'.sh')
-	fs.writeFileSync(p+'-service.sh', service);
-	execSync("chmod a+x "+p+'-service.sh')	
+	fs.writeFileSync(p, application);
+	execSync("chmod a+x "+p)
+	fs.writeFileSync(p+'-service', service);
+	execSync("chmod a+x "+p+'-service')	
 }
 
 // ---
