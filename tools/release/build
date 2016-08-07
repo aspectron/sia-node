@@ -82,13 +82,13 @@ case "$PLATFORM" in
 		echo -e "@echo off\ncd ..\nbin\\\\node\\\\node tools/release/setup.js %*\ncd bin\npause\n" > setup.bat
 		;;
 	linux64)
-		DIR = 'DIR=\"$( cd \"$( dirname \"${BASH_SOURCE[0]}\" )\" && pwd )\";'
+		DIR='DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";'
 		cp ~/node/bin/node node/
 		echo -e "# !/bin/bash\npushd . > /dev/null\n$DIR\ncd \044DIR/..\nbin/node/node tools/release/setup.js \"$\0100\"\npopd > /dev/null\n" > setup
 		chmod a+x setup
 		;;
 	darwin)
-		DIR = 'DIR=\"$( cd \"$( dirname \"${BASH_SOURCE[0]}\" )\" && pwd )\";'
+		DIR='DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";'
 		cp ~/node/bin/node node/
 		echo -e "# !/bin/bash\npushd . > /dev/null\n$DIR\ncd \044DIR/..\nbin/node/node tools/release/setup.js \"$\0100\"\npopd > /dev/null\n" > setup
 		chmod a+x setup
