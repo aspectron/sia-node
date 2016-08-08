@@ -17,9 +17,9 @@ https://github.com/aspectron/sia-cluster/releases
 
 #### Setup Sia Node 
 
-* Download & Extract sia-node-vX-X-X-win64.zip
-* Windows: run `sia-node-vX-X-X-win64/bin/setup.bat"
-* Linux & Darwin: run `sia-node-vX-X-X-win64/bin/setup.sh"
+* Download & Extract sia-node-vX-platform.zip
+* Windows: run `sia-node-vX-platform/bin/setup.bat"
+* Linux & Darwin: run `sia-node-vX-platform/bin/setup.sh"
 
 You will need to specify:
 * **auth** - created by Sia Cluster setup
