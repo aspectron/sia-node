@@ -23,15 +23,16 @@ https://github.com/aspectron/sia-cluster/releases
 
 You will need to specify:
 * **auth** - created by Sia Cluster setup
-* **address/ip** - of Sia Cluster server (default is 127.0.0.1; if not sure, hit ENTER)
-* **path** - to Sia data folder (containing `host`, `consensus` etc.);  If running Sia-UI, setup script will attempt to locate this folder automatically in your APPDATA.
+* **address/ip** - of Sia Cluster server (default is 127.0.0.1)
+* **path** - to Sia data folder (containing `host`, `consensus` etc.);  If running Sia-UI, setup script will attempt to locate this folder automatically in your APPDATA. If running `siad`, this should be the folder where `siad` resides.
+
+You can hit ENTER to get defaults that can later be changed in `config/sia-node.local.conf`
 
 Once complete, you can start Sia Node:
-* Windows: `bin/sia-node.bat` or `bin/sia-node-service.bat`
-* Linux & Darwin: `bin/sia-node.sh` or `bin/sia-node-service.sh`
+* Windows: `bin/sia-node.bat` or `bin/sia-node-service.bat` / Linux & Darwin: `bin/sia-node.sh` or `bin/sia-node-service.sh`
 
 
-## Configuration
+## Custom Configuration
 
 You need to configure following settings in your `config/sia-node.local.conf`:
 
