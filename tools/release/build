@@ -36,6 +36,7 @@ if [[ $* == *--local* ]]; then
 	mkdir $SIA_RELEASE_PATH
 	cp -r ../sia-node/* $SIA_RELEASE_PATH/
 	cd $SIA_RELEASE_PATH
+	rm -rf .git
 	flatten-packages
 elif [[ $* == *--dev* ]]; then
 	echo "Packaging DEV branch"
@@ -47,6 +48,7 @@ elif [[ $* == *--dev* ]]; then
 	sleep 3
 	git pull
 	if (($? != 0)); then echo "GIT PULL Error" && exit 1; fi
+	rm -rf .git
 	npm install
 	if (($? != 0)); then echo "NPM Error" && exit 1; fi
 	flatten-packages
@@ -54,7 +56,9 @@ elif [[ $* == *--master* ]]; then
 	echo "Packaging MASTER branch"
 	git clone https://github.com/aspectron/sia-node $SIA_RELEASE_PATH
 	if (($? != 0)); then echo "GIT CLONE Error" && exit 1; fi
+	zip -a 
 	cd $SIA_RELEASE_PATH
+	rm -rf .git
 	npm install
 	if (($? != 0)); then echo "NPM Error" && exit 1; fi
 	flatten-packages
